@@ -1,0 +1,30 @@
+public class Main {
+    public static void main(String[] args){
+
+        ContaCorrente cc = new ContaCorrente("camila", 1000, Status.ATIVA, 2000);
+        ContaPoupanca cp = new ContaPoupanca("junior", 0, Status.ENCERRADA, 600);
+        ContaEmpresarial ce = new ContaEmpresarial("bianca", 5000, Status.ATIVA,
+        "12.345.678/0001-90", 20000);
+
+        System.out.println;
+        System.out.println(cc.toString());
+        System.out.println(ce.toString());
+        System.out.println(cp.toString());
+
+        System.out.println("DEPÓSITOS E SAQUES");
+        cc.depositar(500); 
+        ce.sacar(200);     
+
+        System.out.println("TRANSFERÊNCIA");
+        cc.transferir(ce, 300);
+
+        System.out.println("PAGAMENTO");
+        cc.processarPagamento(150, "Boleto");
+        ce.processarPagamento(6000, "Pix"); 
+        ce.processarPagamento(4000, "Pix"); 
+
+        System.out.println("SALDO FINAL");
+        System.out.println(cc.toString());
+        System.out.println(ce.toString());
+    }
+}

@@ -1,0 +1,19 @@
+public class ContaPoupança extends Conta {
+
+    private double taxaRendimento;
+
+    public ContaPoupança(String titular, double saldo, Status status, double taxaRendimento) {
+        super(titular, saldo, status);
+        this.taxaRendimento = taxaRendimento;
+    }
+
+    @Override
+    public void exibirTipoConta() {
+        System.out.println("Conta Poupança");
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " | Tipo: Poupança | Rendimento: " + taxaRendimento + "%";
+    }
+}

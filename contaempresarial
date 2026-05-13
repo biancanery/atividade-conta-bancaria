@@ -1,5 +1,3 @@
-package ListaJava;
-
 public class ContaEmpresarial extends Conta implements Pagamento {
 
     private String cnpj;

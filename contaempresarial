@@ -1,0 +1,53 @@
+package ListaJava;
+
+public class ContaEmpresarial extends Conta implements Pagamento {
+
+    private String cnpj;
+    private double limiteCredito;
+    private String nomeEmpresa;
+
+    public ContaEmpresarial(String titular, double saldo, Status status, String cnpj, double limiteCredito, String nomeEmpresa) {
+        super(titular, saldo, status);
+        this.cnpj = cnpj;
+        this.limiteCredito = limiteCredito;
+        this.nomeEmpresa = nomeEmpresa;
+    }
+
+    @Override
+    public void exibirTipoConta() {
+        System.out.println("Conta Empresarial");
+    }
+
+    @Override
+    public boolean sacar(double valor) {
+        double juros = valor * 0.01; 
+        System.out.println("Aviso: Juros empresariais de R$ " + String.format("%.2f", juros) + " aplicados à transação.");
+        return super.sacar(valor + juros);
+    }
+
+    @Override
+    public void processarPagamento(double valor, String modalidade){
+
+        if (modalidade.equalsIgnoreCase("Pix") && valor > 5000.0) {
+            System.out.println("Falha: O limite máximo de pagamento do Pix é de R$ 5.000,00.");
+            return;
+        } else if (modalidade.equalsIgnoreCase("Cartão de Crédito") && valor > 20000.0) {
+            System.out.println("Falha: O limite máximo de pagamento do Cartão é de R$ 20.000,00.");
+            return;
+        } else if (modalidade.equalsIgnoreCase("Boleto") && valor <= 0) {
+            System.out.println("Falha: Para Boleto, o valor precisa ser maior que zero.");
+            return;
+        }
+
+        if (sacar(valor)){
+            System.out.println("Pagamento de R$ " + valor + " via " + modalidade + " concluído!");
+        } else {
+            System.out.println("O pagamento via " + modalidade + " falhou!");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " | Tipo: Empresarial | Empresa: " + nomeEmpresa + " (" + cnpj + ")";
+    }
+}

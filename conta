@@ -1,0 +1,74 @@
+public abstract class Conta {
+
+    protected String titular;
+    protected double saldo;
+    protected Status status;
+
+    public Conta(String titular, double saldo, Status status) {
+        this.titular = titular;
+        this.saldo = saldo;
+        this.status = status;
+    }
+
+    public boolean depositar(double valor) {
+        if (status == Status.BLOQUEADA) {
+            System.out.println("Sua conta está bloqueada, o depósito não pode ser realizado!");
+            return false;
+        } else if (status == Status.ENCERRADA) {
+            System.out.println("Sua conta está encerrada, o depósito não pode ser realizado!");
+            return false;
+        } else if (valor <= 0) {
+            System.out.println("O valor mínimo não foi atingido, impossível realizar depósito!");
+            return false;
+        } else {
+            System.out.println("Depósito concluído com sucesso!");
+            saldo += valor;
+            return true;
+        }
+    }
+
+    public boolean sacar(double valor) {
+        if (status == Status.BLOQUEADA) {
+            System.out.println("Sua conta está bloqueada, o saque não pode ser realizado!");
+            return false;
+        } else if (status == Status.ENCERRADA) {
+            System.out.println("Sua conta está encerrada, o saque não pode ser realizado!");
+            return false;
+        } else if(valor <= 0) {
+            System.out.println("Valor inválido para saque");
+            return false;
+        } else if (saldo < valor) {
+            System.out.println("Não foi possível realizar saque por saldo insuficiente.");
+            return false;
+        } else {
+            System.out.println("Saque concluído com sucesso!");
+            saldo -= valor;
+            return true;
+        }
+    }
+
+    public void transferir(Conta destino, double valor) {
+        if (this.status != Status.ATIVA) {
+            System.out.println("Transferência não permitida: Conta de origem não está ATIVA.");
+            return;
+        }
+
+        if (sacar(valor)) {
+            if (destino.depositar(valor)) {
+                System.out.println("A transferência foi concluída com sucesso para " + destino.titular);
+            } else {
+                this.saldo += valor;
+                System.out.println("Falha no depósito do destino. Valor estornado.");
+            }
+        } else {
+            System.out.println("Falha no saque. Transferência não realizada.");
+        }
+    }
+
+    public abstract void exibirTipoConta();
+
+    @Override
+    public String toString() {
+        return "Titular: " + titular + " | Saldo: R$ " + String.format("%.2f", saldo) + " | Status: " + status;
+    }
+}

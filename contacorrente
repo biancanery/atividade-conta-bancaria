@@ -14,7 +14,7 @@ public class ContaCorrente extends Conta implements Pagamento {
 
     @Override
     public boolean sacar(double valor) {
-        double juros = valor * 0.02; // Exemplo: 2% de juros na transação
+        double juros = valor * 0.02; 
         System.out.println("Aviso: Juros de R$ " + String.format("%.2f", juros) + " aplicados à transação.");
         return super.sacar(valor + juros);
     }
